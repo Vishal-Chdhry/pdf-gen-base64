@@ -3,7 +3,6 @@ const {Base64Encode} = require('base64-stream');
 const fs = require('fs');
 const base64 = require('base64topdf');
 
-// Create a document
 const createDoc = () => {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument();
@@ -53,14 +52,14 @@ const createDoc = () => {
     });
 
     stream.on('end', function () {
-      console.log(finalString);
-      base64.base64Decode(finalString, 'final.pdf');
+      resolve(finalString);
     });
 
-    resolve(finalString);
+    reject(finalString);
   });
 };
 
 createDoc().then(resp => {
   console.log(resp);
+  base64.base64Decode(resp, 'decode.pdf');
 });
